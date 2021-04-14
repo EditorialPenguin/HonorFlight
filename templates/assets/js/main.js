@@ -1,3 +1,5 @@
+
+
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const incorrectlogin = urlParams.get('incorrect');
@@ -5,20 +7,20 @@ const names = urlParams.get('name');
 const role = urlParams.get('role');
 const ngrok = urlParams.get('ngrok');
 
-console.log(JSON.stringify(names))
 
+if (document.getElementById("login_form") != null) {
+
+  login_form.action = window.location + ":5000/login"
+}
 function incorrect()
 {
   if(incorrectlogin == "True")
   {
     document.getElementById("incorrect").style.display = "";
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-    console.log(newurl);
     window.history.pushState({path:newurl}, "", newurl);
   }
 
-
-  
   else{
     //document.getElementById("names").innerHTML= "Hi, " + names;
     // document.getElementById("role").innerHTML= "Role: " + role;
@@ -29,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements
   const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
+  console.log($navbarBurgers.length);
+  
   // Check if there are any navbar burgers
   if ($navbarBurgers.length > 0) {
 
@@ -39,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Get the target from the "data-target" attribute
         const target = el.dataset.target;
+        console.log(target);
         var $target = document.getElementById(target);
 
         $target?.classList.toggle('is-active');
@@ -53,29 +57,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+//used to reach the data endpoint for veteran information
 var vetdata; 
 async function getVeterans() { 
-  await fetch('http://localhost:5000/getVeterans', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(res => res.json()).then(data => vetdata = data);
+  await fetch('http://192.168.1.103:5000/getVeterans', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(res => res.json()).then(data => vetdata = data);
 }
 
+//used to reach the data endpoint for team information
 var teamdata;
 async function getTeams() {
-  await fetch('http://localhost:5000/getTeams', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => teamdata = data);
+  await fetch('http://192.168.1.103:5000/getTeams', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => teamdata = data);
 }
+
 
 var logInfo;
 async function getInfo() {
-  await fetch('http://localhost:5000/getVeterans', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => console.log(data));
+  await fetch('http://192.168.1.103:5000/getVeterans', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => console.log(data));
 }
 
 var singleVet;
 async function getSingleVet(veteran_id) {
-  await fetch('http://localhost:5000/getVeterans?veteran_id=' + veteran_id, { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => singleVet = data);
+  await fetch('http://192.168.1.103:5000/getVeterans?veteran_id=' + veteran_id, { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => singleVet = data);
 }
 
 var accounts;
 async function getAccounts(veteran_id) {
-  await fetch('http://localhost:5000/getAccounts', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => accounts = data);
+  await fetch('http://192.168.1.103:5000/getAccounts', { method: 'GET', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }).then(response => response.json()).then(data => accounts = data);
 }
 
 
@@ -88,6 +95,7 @@ async function veteranInfo(number) {
   var id = [];
   var mid = [];
   var tcolor = [];
+  var comments = [];
   for (i = 0; i < vetdata.length; i++) {
     const values = Object.entries(vetdata[i]);
     for (z = 0; z < values.length; z++){
@@ -103,6 +111,9 @@ async function veteranInfo(number) {
       if(values[z][0] == "last_name"){
         lname.push(values[z][1]);
       }
+      if(values[z][0] == "add_comments"){
+        comments.push(values[z][1]);
+      }
       if(values[z][0] == "team_id"){
         for (y = 0; y < teamdata.length; y++) {
           const tvalues = Object.entries(teamdata[y]);
@@ -116,9 +127,7 @@ async function veteranInfo(number) {
     }
   }
   if(number == 0){
-    popVetList(fname, lname, tcolor, id);
-  } else if(number == 1){
-    popVetUpdateList(id, fname, lname, mid);
+    popVetList(fname, lname, tcolor, id, comments);
   }
 }
 
@@ -149,45 +158,40 @@ async function userInfo(number) {
   popUserList(id, users, roles);
 }
 
-function popVetList(fname, lname, tcolor, id){
+function popVetList(fname, lname, tcolor, id, comment){
   for (i = 0; i < fname.length; i++){
-    document.getElementById("tableID").innerHTML += "<tr><td>" + fname[i] + "</td><td>" + lname[i] + "</td><td>" + tcolor[i] + "</td><td><a href='vet-med.php' onmouseover='saveName(" + id[i] + ");'>" + "Medicial Information" + "</a></td><td><a href='#'>" + "Incident Report" + "</a></td></tr>";
+    document.getElementById("vetTable").innerHTML += "<tr><td>" + fname[i] + "</td><td>" + lname[i] + "</td><td>" + tcolor[i] + "</td><td><a href='vet-med.php' onmouseover='saveName(" + id[i] + ");'>" + "Medicial Information" + "</a></td><td><a href='javascript:;' onclick='openCommentModal(" + id[i] + ", " + JSON.stringify(comment[i]) + ")'>" + "Add Comments" + "</a></td></tr>";
 
-  }
-}
-
-function popVetUpdateList(id, fname, lname, mid){
-  for (i = 0; i < fname.length; i++){
-    document.getElementById("vetUpdate").innerHTML += "<tr><td>" + id[i] + "</td><td>" + fname[i] + "</td><td>" + lname[i] + "</td><td>" + mid[i] + "</td><td><a href='vet-update.php' onmouseover='saveName(" + id[i] + ");'>Update Veteran</a></td></tr>";
   }
 }
 
 function popUserList(id, username, roles){
   for (i = 0; i < id.length; i++){
-    document.getElementById("users").innerHTML += "<tr><td>" + id[i] + "</td><td>" + username[i] + "</td><td>" + roles[i] + "</td></tr>";
+    document.getElementById("users").innerHTML += "<tr><td>" + id[i] + "</td><td>" + username[i] + "</td><td>" + roles[i] + "</td><td><a href='javascript:;' onclick='openPasswordModal(" + id[i] + ", " + JSON.stringify(username[i]) + ", " + JSON.stringify(roles[i]) + ");'>Change Password</a></td></tr>";
   }
 }
 
 async function medicalInfo(ID){
   const fields = [
+    ["first_name","First Name"],
+    ["last_name","Last Name"],
+    ["middle_initial","Middle Initial"],
+    ["dob", "DOB"],
+    ["gender","Gender"],
+    ["med_code","Medical Code"],
     ["add_comments","Comments"],
     ["diet_restrictions","Diet Restrictions"],
-    ["dob", "DOB"],
     ["emergency_address","Emergency Address"],
     ["emergency_cell_phone", "Emergency Cell Phone"],
     ["emergency_day_phone", "Emergency Day Phone"],
     ["emergency_name","Emergency Name"],
     ["emergency_relationship","Emergency Relationship"],
-    ["first_name","First Name"],
-    ["gender","Gender"],
     ["guardian_id","Guardian ID"],
     ["guardian_phone","Guardian Phone"],
     ["guardian_relation", "Guardian Relation"],
-    ["last_name","Last Name"],
     ["med_cancer", "Has/Had Cancer"],
     ["med_cane","Has Cane"],
     ["med_chair_loc", "Requires Chair Lift"],
-    ["med_code","Medical Code"],
     ["med_colostomy", "Has Colostomy"],
     ["med_cpap", "Has CPAP"],
     ["med_dementia", "Has Dementia"],
@@ -217,35 +221,44 @@ async function medicalInfo(ID){
     ["med_use_mobility", "Need Mobility Help"],
     ["med_walker", "Needs Walker"],
     ["med_wheelchair", "Needs Wheelchair"],
-    ["middle_initial","Middle Initial"],
     ["weight","Weight"]]
-  console.log(fields[0][0]);
   await getSingleVet(ID);
   var medical = [];
   var personal = [];
   var guardian = [];
   for(x = 0; x < singleVet.length; x++){
     const values = Object.entries(singleVet[0]);
-    for(y = 0; y < values.length; y++){
-      for(z = 0; z < fields.length; z++){
-        if(values[y][0] == fields[z][0]){
-          if(values[y][0].includes('guardian') || values[y][0].includes("emergency")){
-            guardian.push([fields[z][1],values[y][1]]);
+    for(y = 0; y < fields.length; y++){
+      for(z = 0; z < values.length; z++){
+        if(values[z][0] == fields[y][0]){
+          if(values[z][0].includes('guardian') || values[z][0].includes("emergency")){
+            if(values[z][1] == null){
+              guardian.push([fields[y][1],"-"]);
+            }else{
+              guardian.push([fields[y][1],values[z][1]]);
+            }
           } 
-          else if(["weight", "add_comments", "diet_restrictions"].indexOf(values[y][0]) >= 0 || 
-                  (values[y][0].includes('med_') && !values[y][0].includes("med_code"))){
-            medical.push([fields[z][1],values[y][1]]);
+          else if(["weight", "diet_restrictions"].indexOf(values[z][0]) >= 0 || 
+          (values[z][0].includes('med_') && !values[z][0].includes("med_code"))){
+            if(values[z][1] == 0){
+              medical.push([fields[y][1],"No"]);
+            } else if(values[z][1] == 1){
+              medical.push([fields[y][1], "Yes"]);
+            }else {
+              medical.push([fields[y][1],values[z][1]]);
+            }
           }
           else{
-            personal.push([fields[z][1],values[y][1]]);
+            if(values[z][1] == null || values[z][1] == ""){
+              personal.push([fields[y][1],"-"]);
+            }else{
+              personal.push([fields[y][1],values[z][1]]);
+            }
           }
         }
       }
     }
   }
-  console.log(medical);
-  console.log(personal);
-  console.log(guardian);
   for(x = 0; x < personal.length; x++){
     document.getElementById("personal").innerHTML += "<tr><td>" + personal[x][0] + "</td><td>" + String(personal[x][1]) + "</td></tr>";
   }
@@ -255,4 +268,256 @@ async function medicalInfo(ID){
   for(x = 0; x < medical.length; x++){
     document.getElementById("medical").innerHTML += "<tr><td>" + medical[x][0] + "</td><td>" + String(medical[x][1]) + "</td></tr>";
   }
+}
+
+
+function getRBY(red, blue, yellow){
+  for(x = 0; x < red.length; x++){
+    var fname = red[x][0]
+    var lname = red[x][1]
+    var id = red[x][4]
+    document.getElementById("busVets").innerHTML += "<tr><td>" + red[x][0] + "</td><td>" + red[x][1] +  "</td><td>" + red[x][2] + "</td><td>" + red[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(fname) + ", " + JSON.stringify(lname) + ", " + JSON.stringify(id) + ", " + JSON.stringify(red[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+  for(x = 0; x < blue.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + blue[x][0] + "</td><td>" + blue[x][1] +  "</td><td>" + blue[x][2] + "</td><td>" + blue[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(blue[x][0]) + ", " + JSON.stringify(blue[x][1]) + ", " + JSON.stringify(blue[x][4]) + ", " + JSON.stringify(blue[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+  for(x = 0; x < yellow.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + yellow[x][0] + "</td><td>" + yellow[x][1] +  "</td><td>" + yellow[x][2] + "</td><td>" + yellow[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(yellow[x][0]) + ", " + JSON.stringify(yellow[x][1]) + ", " + JSON.stringify(yellow[x][4]) + ", " + JSON.stringify(yellow[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+}
+
+function getGOP(green, orange, purple){
+  for(x = 0; x < green.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + green[x][0] + "</td><td>" + green[x][1] +  "</td><td>" + green[x][2] + "</td><td>" + green[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(green[x][0]) + ", " + JSON.stringify(green[x][1]) + ", " + JSON.stringify(green[x][4]) + ", " + JSON.stringify(green[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+  for(x = 0; x < orange.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + orange[x][0] + "</td><td>" + orange[x][1] +  "</td><td>" + orange[x][2] + "</td><td>" + orange[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(orange[x][0]) + ", " + JSON.stringify(orange[x][1]) + ", " + JSON.stringify(orange[x][4]) + ", " + JSON.stringify(orange[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+  for(x = 0; x < purple.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + purple[x][0] + "</td><td>" + purple[x][1] +  "</td><td>" + purple[x][2] + "</td><td>" + purple[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(purple[x][0]) + ", " + JSON.stringify(purple[x][1]) + ", " + JSON.stringify(purple[x][4]) + ", " + JSON.stringify(purple[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+}
+
+function getGST(gold, silver, teal){
+  for(x = 0; x < gold.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + gold[x][0] + "</td><td>" + gold[x][1] +  "</td><td>" + gold[x][2] + "</td><td>" + gold[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(gold[x][0]) + ", " + JSON.stringify(gold[x][1]) + ", " + JSON.stringify(gold[x][4]) + ", " + JSON.stringify(gold[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+  for(x = 0; x < silver.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + silver[x][0] + "</td><td>" + silver[x][1] +  "</td><td>" + silver[x][2] + "</td><td>" + silver[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(silver[x][0]) + ", " + JSON.stringify(silver[x][1]) + ", " + JSON.stringify(silver[x][4]) + ", " + JSON.stringify(silver[x][3])+ ");'>Edit Room</a></td></tr>";
+  }
+  for(x = 0; x < teal.length; x++){
+    document.getElementById("busVets").innerHTML += "<tr><td>" + teal[x][0] + "</td><td>" + teal[x][1] +  "</td><td>" + teal[x][2] + "</td><td>" + teal[x][3] +  "</td><td><a href='javascript:;' onclick='openRoomModal(" + JSON.stringify(teal[x][0]) + ", " + JSON.stringify(teal[x][1]) + ", " + JSON.stringify(teal[x][4]) + ", " + JSON.stringify(teal[x][3]) + ");'>Edit Room</a></td></tr>";
+  }
+}
+
+
+function openRoomModal(fname, lname, id, room) {
+  var element = document.getElementById("editor");
+  element.classList.add("is-active");
+  var first = document.getElementById("fname");
+  var last = document.getElementById("lname");
+  var vid = document.getElementById("vid");
+  var hroom = document.getElementById("room");
+  first.setAttribute('value', fname);
+  last.setAttribute('value', lname);
+  vid.setAttribute('value', id);
+  hroom.setAttribute('value', room);
+}
+
+function closeRoomModal(){
+  var element = document.getElementById("editor");
+  element.classList.remove("is-active");
+  var vid = document.getElementById("vid").value;
+  var room = document.getElementById("room").value;
+  updateRoom(room, vid);
+  setTimeout(() => { window.location.reload(); }, 1000);
+}
+
+function openPasswordModal(id, username, role) {
+  var element = document.getElementById("editor");
+  element.classList.add("is-active");
+  var uid = document.getElementById("uid");
+  var user = document.getElementById("user");
+  var roles = document.getElementById("role");
+  roles.setAttribute('value', role);
+  user.setAttribute('value', username);
+  uid.setAttribute('value', id);
+}
+
+
+function closePasswordModal(){
+  var element = document.getElementById("editor");
+  element.classList.remove("is-active");
+  var uid = document.getElementById("uid").value;
+  var pass = document.getElementById("pass").value;
+  ResetPassword(uid, pass);
+}
+
+
+function openCommentModal(id, comment) {
+  var element = document.getElementById("editor");
+  element.classList.add("is-active");
+  var vid = document.getElementById("vid");
+  var comments = document.getElementById("comments");
+  vid.setAttribute('value', id);
+  comments.setAttribute('value', comment);
+}
+
+
+function closeCommentModal(){
+  var element = document.getElementById("editor");
+  element.classList.remove("is-active");
+  var vid = document.getElementById("vid").value;
+  var comments = document.getElementById("comments").value;
+  addComment(comments, vid);
+}
+
+function close(){
+  var element = document.getElementById("editor");
+  element.classList.remove("is-active");
+}
+
+async function getVetBus(bus){
+  document.getElementById('busVets').innerHTML = "";
+
+  await getVeterans();
+  await getTeams();
+
+  var fname = [];
+  var lname = [];
+  var id = [];
+  var hotelRoom = [];
+  var tcolor = [];
+  var allInfo = [];
+
+  for (i = 0; i < vetdata.length; i++) {
+    const values = Object.entries(vetdata[i]);
+    for (z = 0; z < values.length; z++){
+      if(values[z][0] == "first_name"){
+        fname.push(values[z][1]);
+      }
+      if(values[z][0] == "veteran_id"){
+        id.push(values[z][1]);
+      }
+      if(values[z][0] == "hotel_room"){
+        hotelRoom.push(values[z][1]);
+        values[z][1];
+      }
+      if(values[z][0] == "last_name"){
+        lname.push(values[z][1]);
+      }
+      if(values[z][0] == "team_id"){
+        for (y = 0; y < teamdata.length; y++) {
+          const tvalues = Object.entries(teamdata[y]);
+          for (x = 0; x < tvalues.length; x++){
+            if(tvalues[x][1] == values[z][1]){
+              tcolor.push(tvalues[(x-4)][1]);
+            }
+          }
+        }
+      }
+    }
+  }
+  var red = [];
+  var blue = [];
+  var yellow = [];
+  var green = [];
+  var orange = [];
+  var purple = [];
+  var gold = [];
+  var silver = [];
+  var teal = [];
+
+  for(x=0;x<fname.length;x++){
+    allInfo.push([fname[x], lname[x], tcolor[x], hotelRoom[x], id[x]]);
+    switch(allInfo[x][2]){
+      case "Red":
+        red.push(allInfo[x]);
+        break;
+      case "Blue":
+        blue.push(allInfo[x]);
+        break;
+      case "Yellow":
+        yellow.push(allInfo[x]);
+        break;
+      case "Green":
+        green.push(allInfo[x]);
+        break;
+      case "Orange":
+        orange.push(allInfo[x]);
+        break;
+      case "Purple":
+        purple.push(allInfo[x]);
+        break;
+      case "Gold":
+        gold.push(allInfo[x]);
+        break;
+      case "Silver":
+        silver.push(allInfo[x]);
+        break;
+      case "Teal":
+        teal.push(allInfo[x]);
+        break;
+    }
+  }
+
+  if (bus == "bus1") {
+    getRBY(red, blue, yellow);
+  } else if(bus == "bus2") {
+    getGOP(green, orange, purple);
+  } else if (bus == "bus3"){
+    getGST(gold, silver, teal);
+  }
+  
+}
+
+function updateRoom(number, id){
+  var formData = new FormData();
+  formData.append("veteran_id", id);
+  formData.append("hotel_room", number);
+
+  var requestOptions = {
+    method: 'PUT', 
+    body: formData, 
+    redirect: 'follow'
+  }
+
+  fetch("http://192.168.1.103:5000/updateVeteran", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+
+function addComment(comment, id){
+  var formData = new FormData();
+  formData.append("veteran_id", id);
+  formData.append("add_comments", comment);
+
+  var requestOptions = {
+    method: 'PUT', 
+    body: formData, 
+    redirect: 'follow'
+  }
+
+  fetch("http://192.168.1.103:5000/updateVeteran", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+
+function ResetPassword(uid, pass){
+  var formData = new FormData();
+  formData.append("id", uid);
+  formData.append("password", pass);
+
+  var requestOptions = {
+    method: 'PUT', 
+    body: formData, 
+    redirect: 'follow'
+  }
+
+  fetch("http://192.168.1.103:5000/resetPassword", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 }

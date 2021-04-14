@@ -6,7 +6,7 @@ import os
 from os import name as os_name
 from pyngrok import ngrok, exception
 import qrcode
-
+import json
 mysql = MySQL()
 app = Flask(__name__)
 CORS(app)
@@ -23,9 +23,11 @@ ngroksql = ""
 @app.route('/')
 def index():
     if(ngroksql != ""):
-        return redirect("http://localhost:8000?ngrok=" + ngroksql, code=302)
+        return redirect("http://192.168.1.103:8000?ngrok=" + ngroksql, code=302)
     else:
-        return redirect("http://localhost:8000", code=302)
+        return redirect("http://192.168.1.103", code=302)
+
+
 
 @app.route("/getAccounts", methods=['GET'])
 def getAccounts():
@@ -57,11 +59,11 @@ def login():
         session['loggedin'] = True
         session['id'] = account[0]
         session['username'] = account[1]
-        return redirect("http://localhost:8000/assets/mission.php?role=" + account[3] + "&name=" + account[1])
+        return redirect("http://192.168.1.103/index.php?role=" + account[3] + "&name=" + account[1] + "&loggedIn=True")
     else:
         # Account doesnt exist or username/password incorrect
         msg = 'Incorrect username/password!'
-    return redirect("http://localhost:8000?incorrect=True")
+    return redirect("http://192.168.1.103/?incorrect=True")
 
 @app.route("/homepage", methods=['GET'])
 def home():

@@ -1,5 +1,39 @@
 <?php
-    $path = "../";
+session_start();
+switch ($_SESSION['role']) {
+  case 'Mission Leader':
+    $location = 'pdf/ML';
+    break;
+  case 'IT Administrator':
+    $location = 'pdf/ML';
+    break;
+  case 'Mission Operations':
+    $location = 'pdf/ML';
+    break;
+  case 'Mission Safety Leader':
+    $location = 'pdf/MSL';
+    break;
+  case 'Bus Leader':
+    $location = 'pdf/BL';
+    break;
+  case 'Bus Safety Assistant':
+    $location = 'pdf/MA';
+    break;
+  case 'Bus Safety Leader':
+    $location = 'pdf/BSL';
+    break;
+  case 'Bus Assistant':
+    $location = 'pdf/SA';
+    break;
+  case 'Advance Team':
+    $location = 'pdf/A';
+    break;
+  case 'Photographer':
+    $location = 'pdf/P';
+    break;
+}
+
+  $path = "../";
 	$page = "Honor Flights of Rochester :: Bus Book";
 	include $path."assets/inc/header.php";
 ?>
@@ -27,6 +61,7 @@ h1 {
     margin: auto;
     width: 90%;
     padding: 10px;
+    height: 1000px;
   }
 
   object {
@@ -53,7 +88,7 @@ h1 {
     <div class="container" id="contained">
       <div id="mainContainer">
         <div id="viewerContainer">
-          <object data="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf#zoom=FitH"
+          <object data="<?php echo $location ?>busbook.pdf"
           type="application/pdf" width="100%" height="100%"></object>
         </div>
       </div>
