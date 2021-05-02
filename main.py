@@ -160,19 +160,39 @@ def createMission():
     cursor = mysql.connection.cursor()
     results = {}
     data = request.form.to_dict(flat=False)
+    print("INSERT INTO mission (title, start_date, end_date) VALUES ('%s', '%s', '%s')" % (data["title"][0], data["start_date"][0], data["end_date"][0]))
     try:
         if (data["title"][0] == ""):
             error = {}
             error['error'] = "NO_TITLE_VALUE_ERROR"
             return jsonify(error)
+        
+    except KeyError:
+        error = {}
+        error['error'] = "NO_TITLE_ERROR"
+        return jsonify(error)
+    try:
+        if (data["start_date"][0] == ""):
+            error = {}
+            error['error'] = "NO_START_DATE_VALUE_ERROR"
+            return jsonify(error)
+    except KeyError:
+        error = {}
+        error['error'] = "NO_START_DATE_ERROR"
+        return jsonify(error)
+    try:
+        if (data["end_date"][0] == ""):
+            error = {}
+            error['error'] = "NO_END_DATE_VALUE_ERROR"
+            return jsonify(error)
         else:
-            cursor.execute("INSERT INTO mission (title) VALUES ('" + str(data["title"][0])  + "')")
+            cursor.execute("INSERT INTO mission (title, start_date, end_date) VALUES ('%s', '%s', '%s')" % (data["title"][0], data["start_date"][0], data["end_date"][0]))
             mysql.connection.commit()
             results['CREATE_MISSION_' + data["title"][0].upper().replace(" ", "_")] = True
             return jsonify(results)
     except KeyError:
         error = {}
-        error['error'] = "NO_TITLE_ERROR"
+        error['error'] = "NO_END_DATE_ERROR"
         return jsonify(error)
 
 @app.route("/getMissions", methods=['GET'])

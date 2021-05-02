@@ -2,29 +2,28 @@
     $path = "../";
 	$page = "Honor Flights of Rochester :: Veteran List";
 	include $path."assets/inc/header.php";
-  session_start();
-  if ($_SESSION['role'] != 'Mission Safety Leader' && $_SESSION['role'] != 'Bus Safety Leader' &&
-   $_SESSION['role'] != 'Bus Safety Assistant' &&  $_SESSION['role'] != 'Mission Operations' &&
-   $_SESSION['role'] != 'IT Administrator') {
-    // Change to access denied page
-    //echo $_SESSION['role'];
-    header("Location: denied.php");
-  }
 ?>
 
 <style>
-  .navbar-link{
-    font-weight: bold;
-    color: white;
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  tr:nth-of-type(odd) { 
+    background: #eee; 
+  }
+  th { 
+    background: #333; 
+    color: white !important;
+    font-weight: bold; 
+  }
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: left; 
   }
 
-  .navbar-dropdown {
-    padding: 0;
-  }
-
-  .navbar-menu {
-    padding: 0;
-  }
+</style>
 
 
 </style>
@@ -54,8 +53,10 @@
     </div>
   </div>
 </section>
-<div class="container">
-<div class="modal" id="editor">
+<section id='tester' class="hero is-small">
+<div class="hero-body">
+<div>
+  <div class="modal" id="editor">
     <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -77,17 +78,18 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success" onclick="closeCommentModal();">Save Comment</button>
-          <button class="button is-success" onclick="close();">Exit</button>
+          <button class="button is-alert" onclick="closing();">Exit</button>
         </footer>
       </div>
     </div>
   </div>
-  <table class="table is-fullwidth" id="vetTable">
+  <table id="vetTable">
     <thead>
       <tr>
         <th><abbr title="FN">First Name</abbr></th>
         <th><abbr title="LN">Last Name</abbr></th>
         <th><abbr title="Team">Team Color</abbr></th>
+        <th><abbr title="Medical"></abbr></th>
         <th><abbr title="Medical"></abbr></th>
       </tr>
     </thead>
@@ -95,7 +97,8 @@
     </tbody>
   </table>
 </div>
-
+</div>
+</section>
 <?php
     include $path."assets/inc/footer.php";
 

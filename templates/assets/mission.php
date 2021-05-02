@@ -36,7 +36,7 @@
                 </div>
                 <div class="tile is-parent is-8">
                     <article class="tile is-child box">
-                    <p class="title">Upcoming Missionn</p>
+                    <p class="title">Upcoming Mission</p>
                     <p class="subtitle">DC, Maryland to Rochester, NY</p>
                     <div class="content">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>

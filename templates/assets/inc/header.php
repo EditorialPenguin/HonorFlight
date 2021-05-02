@@ -61,7 +61,7 @@ if($user && password_verify($password, $user['password'])){
               <a class="navbar-item" href="<?php echo $path; ?>assets/userlist.php">
                 User Information
               </a>
-              <a class="navbar-item" href="<?php echo $path; ?>assets/userlist.php">
+              <a class="navbar-item" href="<?php echo $path; ?>assets/missionCreate.php">
                 Create Mission
               </a>
               
@@ -102,13 +102,13 @@ function navNoShow(){
       document.getElementById("medNav").style.display = "none";
       document.getElementById("update").style.display = "none";
       break;
-    case "Bus Safety Assistant":
+    case "Safety Assistant":
       document.getElementById("update").style.display = "none";
       break;
     case "Bus Safety Leader":
       document.getElementById("update").style.display = "none";
       break;
-    case "Bus Assistant":
+    case "Mission Assistant":
       document.getElementById("medNav").style.display = "none";
       document.getElementById("update").style.display = "none";
       break;

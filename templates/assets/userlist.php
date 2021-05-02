@@ -11,19 +11,24 @@
 ?>
 
 <style>
-  .navbar-link{
-    font-weight: bold;
-    color: white;
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
   }
-
-  .navbar-dropdown {
-    padding: 0;
+  / Zebra striping */
+  tr:nth-of-type(odd) { 
+    background: #eee; 
   }
-
-  .navbar-menu {
-    padding: 0;
+  th { 
+    background: #333; 
+    color: white !important;
+    font-weight: bold; 
   }
-
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: left; 
+  }
 
 </style>
 
@@ -43,7 +48,10 @@
     </div>
   </div>
 </section>
-<div class="container">
+
+<section id='tester' class="hero is-small">
+<div class="hero-body">
+<div>
 <div class="modal" id="editor">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -79,26 +87,25 @@
         </section>
         <footer class="modal-card-foot">
         <button class="button is-success" onclick="closePasswordModal();">Save Changes</button>
-        <button class="button" onclick="close();">Exit</button>
+        <button class="button" onclick="closing();">Exit</button>
         </footer>
     </div>
     </div>
     </div>
-  <table class="table is-fullwidth" id="users">
+  <table id="users">
     <thead>
       <tr>
-        <th><abbr title="id">User ID</abbr></th>
         <th><abbr title="username">Username</abbr></th>
         <th><abbr title="role">Role</abbr></th>
         <th><abbr title="pass"></abbr></th>
-        <th><abbr title="edit"></abbr></th>
       </tr>
     </thead>
     <tbody>
     </tbody>
   </table>
 </div>
-
+</div>
+</section>
 <?php
     include $path."assets/inc/footer.php";
 

@@ -154,52 +154,56 @@ if ($_SESSION['role'] != 'Mission Operations' && $_SESSION['role'] != 'IT Admini
     </div>
 </section>
 <br>
-<div class="container">
-<form action="#" method=POST enctype=multipart/form-data>
-    <p>Mission Leader</p>
-    <input type="file" id="ML" name="filename">
-<?php if (!empty($errormsg2)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg1 ?></span>
-<?php endif; ?>
-    <p>Mission Safety Leader</p>
-    <input type="file" id="MSL" name="filename2">
-<?php if (!empty($errormsg3)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg2 ?></span>
-<?php endif; ?>
-    <p>Bus Leader</p>
-    <input type="file" id="BL" name="filename3">
-<?php if (!empty($errormsg4)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg3 ?></span>
-<?php endif; ?>
-    <p>Bus Safety Leader</p>
-    <input type="file" id="BSL" name="filename4">
-<?php if (!empty($errormsg5)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg4 ?></span>
-<?php endif; ?>
-    <p>Mission Assistant</p>
-    <input type="file" id="MA" name="filename5">
-<?php if (!empty($errormsg6)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg5 ?></span>
-<?php endif; ?>
-    <p>Safety Assistant</p>
-    <input type="file" id="SA" name="filename6">
-<?php if (!empty($errormsg7)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg6 ?></span>
-<?php endif; ?>
-    <p>Advance Team</p>
-    <input type="file" id="A" name="filename7">
-<?php if (!empty($errormsg8)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg7 ?></span>
-<?php endif; ?>
-    <p>Photographer</p>
-    <input type="file" id="P" name="filename8">
-<?php if (!empty($errormsg1)): ?>
-    <span style="font-weight: bold; color: red;"><?= $errormsg8 ?></span>
-<?php endif; ?>
-    <br><br>
-    <input type="submit">
-</form>
-</div>
+<section id='documents' class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <form action="#" method=POST enctype=multipart/form-data>
+                <p>Mission Leader</p>
+                <input type="file" id="ML" name="filename">
+            <?php if (!empty($errormsg2)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg1 ?></span>
+            <?php endif; ?>
+                <p>Mission Safety Leader</p>
+                <input type="file" id="MSL" name="filename2">
+            <?php if (!empty($errormsg3)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg2 ?></span>
+            <?php endif; ?>
+                <p>Bus Leader</p>
+                <input type="file" id="BL" name="filename3">
+            <?php if (!empty($errormsg4)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg3 ?></span>
+            <?php endif; ?>
+                <p>Bus Safety Leader</p>
+                <input type="file" id="BSL" name="filename4">
+            <?php if (!empty($errormsg5)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg4 ?></span>
+            <?php endif; ?>
+                <p>Mission Assistant</p>
+                <input type="file" id="MA" name="filename5">
+            <?php if (!empty($errormsg6)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg5 ?></span>
+            <?php endif; ?>
+                <p>Safety Assistant</p>
+                <input type="file" id="SA" name="filename6">
+            <?php if (!empty($errormsg7)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg6 ?></span>
+            <?php endif; ?>
+                <p>Advance Team</p>
+                <input type="file" id="A" name="filename7">
+            <?php if (!empty($errormsg8)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg7 ?></span>
+            <?php endif; ?>
+                <p>Photographer</p>
+                <input type="file" id="P" name="filename8">
+            <?php if (!empty($errormsg1)): ?>
+                <span style="font-weight: bold; color: red;"><?= $errormsg8 ?></span>
+            <?php endif; ?>
+                <br><br>
+                <input type="submit">
+            </form>
+        </div>    
+    </div>
+</section>
 <br>
 <?php
     include $path."assets/inc/footer.php";

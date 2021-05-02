@@ -3,10 +3,31 @@ $path = "../";
 $page = "Honor Flights of Rochester :: Veteran Information";
 include $path . "assets/inc/header.php";
 ?>    
+<style>
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  / Zebra striping */
+  tr:nth-of-type(odd) { 
+    background: #eee; 
+  }
+  th { 
+    background: #333; 
+    color: white !important;
+    font-weight: bold; 
+  }
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: left; 
+  }
+
+</style>
 
 <?php
   echo '<script type="text/JavaScript">
-  colorVar = document.getElementById("teamsColor")value;
+  colorVar = document.getElementById("teamsColor").value;
   console.log(colorVar);
   window.onload = getVetBus(colorVar);
   </script>';
@@ -23,7 +44,9 @@ include $path . "assets/inc/header.php";
         </div>
     </div>
 </section>
-<div class="container">
+<section id='tester' class="hero is-small">
+<div class="hero-body">
+<div>
     <div class="modal" id="editor">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -59,7 +82,7 @@ include $path . "assets/inc/header.php";
         </section>
         <footer class="modal-card-foot">
         <button class="button is-success" href="#" onclick="closeRoomModal();">Save Changes</button>
-        <button class="button is-alert" onclick="close();">Exit</button>
+        <button class="button is-alert" onclick="closing();">Exit</button>
         </footer>
     </div>
     </div>
@@ -76,20 +99,21 @@ include $path . "assets/inc/header.php";
             </div>
         </div>
     </div>
-    <table class="table is-fullwidth" id="busList">
+    <table class="" id="busList">
         <thead>
             <tr>
-                <th><abbr title="FN">First Name</abbr></th>
-                <th><abbr title="LN">Last Name</abbr></th>
+                <th><abbr title="FN">First name</abbr></th>
+                <th><abbr title="LN">Last name</abbr></th>
                 <th><abbr title="Team">Team Color</abbr></th>
-                <th><abbr title="editRoom"></abbr></th>
+                <th><abbr title="roomNum">Room #</abbr></th>
             </tr>
         </thead>
         <tbody id="busVets">
         </tbody>
     </table>
 </div>
-
+</div>
+</section>
 <?php
     include $path."assets/inc/footer.php";
 

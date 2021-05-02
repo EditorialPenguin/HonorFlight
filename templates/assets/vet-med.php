@@ -4,14 +4,34 @@
   session_start();
 	include $path."assets/inc/header.php";
   if ($_SESSION['role'] != 'Mission Safety Leader' && $_SESSION['role'] != 'Bus Safety Leader' &&
-   $_SESSION['role'] != 'Bus Safety Assistant' &&  $_SESSION['role'] != 'Mission Operations' &&
+   $_SESSION['role'] != 'Safety Assistant' &&  $_SESSION['role'] != 'Mission Operations' &&
    $_SESSION['role'] != 'IT Administrator') {
     // Change to access denied page
     //echo $_SESSION['role'];
     header("Location: denied.php");
   }
 ?>
+<style>
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  / Zebra striping */
+  tr:nth-of-type(odd) { 
+    background: #eee; 
+  }
+  th { 
+    background: #333; 
+    color: white !important;
+    font-weight: bold; 
+  }
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: left; 
+  }
 
+</style>
 <?php 
   echo '<script type="text/JavaScript">
   window.onload = medicalInfo(localStorage.getItem("localStorage"));
@@ -40,7 +60,7 @@
     
     <div class="container">
       <h2 class="subtitle has-text-centered has-text-weight-bold">Personal Info</h2>
-      <table id="personal" class="table is-striped">
+      <table id="personal">
         <thead>
           <tr>
             <th><abbr title="Field">Field Name</abbr></th>
@@ -56,7 +76,7 @@
 
     <div class="container">
       <h2 class="subtitle has-text-centered has-text-weight-bold">Guardian Info</h2>
-      <table id="guardian" class="table is-striped">
+      <table id="guardian">
         <thead>
           <tr>
             <th><abbr title="Field">Field Name</abbr></th>
@@ -72,7 +92,7 @@
 
     <div class="container">
       <h2 class="subtitle has-text-centered has-text-weight-bold">Medical Info</h2>
-      <table id="medical" class="table is-striped">
+      <table id="medical">
         <thead>
           <tr>
             <th><abbr title="Field">Field Name</abbr></th>

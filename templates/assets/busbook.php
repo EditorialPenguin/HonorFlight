@@ -16,13 +16,13 @@ switch ($_SESSION['role']) {
   case 'Bus Leader':
     $location = 'pdf/BL';
     break;
-  case 'Bus Safety Assistant':
+  case 'Safety Assistant':
     $location = 'pdf/MA';
     break;
   case 'Bus Safety Leader':
     $location = 'pdf/BSL';
     break;
-  case 'Bus Assistant':
+  case 'Mission Assistant':
     $location = 'pdf/SA';
     break;
   case 'Advance Team':
@@ -61,14 +61,14 @@ h1 {
     margin: auto;
     width: 90%;
     padding: 10px;
-    height: 1000px;
+    height: 900px;
   }
 
   object {
     overflow: auto;
     display: block;
     align-items: center;
-    max-width: 1000px;
+    max-width: auto;
     justify-content: center;
     filter: drop-shadow(5px 5px 5px #222222);
   }
@@ -88,7 +88,7 @@ h1 {
     <div class="container" id="contained">
       <div id="mainContainer">
         <div id="viewerContainer">
-          <object data="<?php echo $location ?>busbook.pdf"
+          <object data="<?php echo $location ?>busbook.pdf#view=FitH"
           type="application/pdf" width="100%" height="100%"></object>
         </div>
       </div>
