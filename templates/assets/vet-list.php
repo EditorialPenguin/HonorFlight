@@ -29,6 +29,7 @@
 </style>
 
 <?php
+// Javascript for veteran info and id
   echo '<script type="text/JavaScript">
   async function saveName(vetID) {
     localStorage = window.localStorage;

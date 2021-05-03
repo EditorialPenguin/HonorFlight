@@ -6,8 +6,7 @@
   if ($_SESSION['role'] != 'Mission Safety Leader' && $_SESSION['role'] != 'Bus Safety Leader' &&
    $_SESSION['role'] != 'Safety Assistant' &&  $_SESSION['role'] != 'Mission Operations' &&
    $_SESSION['role'] != 'IT Administrator') {
-    // Change to access denied page
-    //echo $_SESSION['role'];
+    // redirect if wrong login
     header("Location: denied.php");
   }
 ?>

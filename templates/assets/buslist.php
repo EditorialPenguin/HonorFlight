@@ -25,7 +25,9 @@ include $path . "assets/inc/header.php";
 
 </style>
 
+ 
 <?php
+ // Set Team colors
   echo '<script type="text/JavaScript">
   colorVar = document.getElementById("teamsColor").value;
   console.log(colorVar);

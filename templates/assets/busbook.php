@@ -1,4 +1,6 @@
+
 <?php
+// Set location for pdf
 session_start();
 switch ($_SESSION['role']) {
   case 'Mission Leader':

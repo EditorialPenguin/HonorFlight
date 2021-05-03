@@ -4,8 +4,7 @@ $page = "Honor Flights of Rochester :: Veteran Information";
 include $path . "assets/inc/header.php";
 
 if ($_SESSION['role'] != 'Mission Operations' && $_SESSION['role'] != 'IT Administrator') {
-    // Change to access denied page
-    //echo $_SESSION['role'];
+    // Redirect if wrong user
     header("Location: denied.php");
 }
 ?>    

@@ -1,5 +1,5 @@
 <?php
-
+// Unset session variables and redirect
 session_start();
 session_unset();
 session_destroy();

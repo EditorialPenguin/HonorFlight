@@ -4,8 +4,7 @@
 	include $path."assets/inc/header.php";
   session_start();
   if ($_SESSION['role'] != 'IT Administrator' && $_SESSION['role'] != 'Mission Operations' ) {
-    // Change to access denied page
-    //echo $_SESSION['role'];
+    // Redirect if wrong login
     header("Location: denied.php");
   }
 ?>

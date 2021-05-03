@@ -13,13 +13,14 @@ const role = urlParams.get('role');
 const ngrok = urlParams.get('ngrok');
 
 
-//If the login is 
+//If the login is empty
 if (document.getElementById("login_form") != null) {
 
   login_form.action = window.location + ":5000/login"
 }
 function incorrect()
 {
+  //If the login is invalid, redirects to the properly page
   if(incorrectlogin == "True")
   {
     document.getElementById("incorrect").style.display = "";
@@ -147,7 +148,7 @@ async function veteranInfo(number) {
   var tcolor = [];
   var comments = [];
   
-  iterates through the veteran information
+  //iterates through the veteran information
   for (i = 0; i < vetdata.length; i++) {
     const values = Object.entries(vetdata[i]);//makes the dictionary object an array to iterate through
     
